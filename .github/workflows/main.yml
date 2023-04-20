@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: serverless deploy
-        run: sls deploy --region ${AWS_REGION}
+        run: sls deploy
 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
