@@ -2,11 +2,16 @@ import { Op } from "sequelize";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { Contacts } from "../types";
 import { ContactInput } from "../types/inputs";
+import { ContactsObject } from "../types/outputs";
 
 @Resolver()
 export class ContactsResolver {
-  @Query(() => [Contacts])
-  async getContacts(@Arg("search", { nullable: true }) search: string) {
+  @Query(() => ContactsObject)
+  async getContacts(
+    @Arg("search", { nullable: true }) search: string,
+    @Arg('pages', { defaultValue: 1 }) pages: number,
+    @Arg('limit', { defaultValue: 10 }) limit: number,
+  ) {
     try {
       let where: {
         [Op.or]?: [
@@ -33,10 +38,13 @@ export class ContactsResolver {
         };
       }
 
-      const { count, rows: rowsContants } = await Contacts.findAndCountAll({
+      const { count, rows } = await Contacts.findAndCountAll({
         where,
+        order: [['firstName', 'ASC']],
+        limit: limit,
+        offset: (limit * pages) - limit
       });
-      return rowsContants;
+      return { contacts: rows, totalContacts: count };
     } catch (error) {
       console.log(`Error in getContacts: ${error}`);
       throw new Error(error);

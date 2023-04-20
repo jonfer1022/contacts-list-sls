@@ -4,7 +4,7 @@ import { schema } from './schema';
 import * as db from '../config/connection';
 import * as models from '../graphql/types';
 
-// Habilitar cuando se desee crear nuevas tablas.
+// Enable when you want create new tables.
 // db.init();
 db.sqlz.addModels(Object.values(models));
 
