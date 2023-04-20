@@ -1,0 +1,41 @@
+name: Deploy app TeamOnBoard API
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: deploy serverless app
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install dependencies
+        run: npm install
+
+      - name: serverless deploy
+        run: sls deploy --region ${AWS_REGION}
+
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          SECRET_ACCESS: ${{ secrets.SECRET_ACCESS }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          ORIGIN_CLIENT: ${{ secrets.ORIGIN_CLIENT }}
