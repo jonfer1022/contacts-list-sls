@@ -10,8 +10,8 @@ const confirmSignUp: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
 ) => {
   try {
     console.log("-----> ~ The confirmSignUp function has started");
-    const { email, code } = event.body;
-    console.log("-----> ~ email, code:", email, code);
+    const { body } = event;
+    const { email, code } = body;
     console.log("-----> ~ schema:", schema);
     const cognitoService = new Cognito();
     await cognitoService.confirmSignUp(email, String(code));
