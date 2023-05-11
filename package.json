@@ -14,7 +14,7 @@
     "@middy/core": "^2.5.3",
     "@middy/http-json-body-parser": "^2.5.3",
     "apollo-server-lambda": "^3.6.7",
-    "aws-sdk": "^2.1144.0",
+    "aws-sdk": "^2.1374.0",
     "class-validator": "^0.13.2",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
